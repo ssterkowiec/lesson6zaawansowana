@@ -4,10 +4,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Wisielec {
-    public static final String[] words = {"młotek", "gra", " java", "woreczek"};
+    public static final String[] words = {"młotek", "gra", "java", "woreczek"};
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int foults= 10;
         char c;
         Random random = new Random();
         int numerOfWord = random.nextInt(words.length);
@@ -21,12 +22,35 @@ public class Wisielec {
             System.out.println();
             System.out.print("podaj litere ");
             c = sc.next().charAt(0);
+            if (!tryLetter(word, guessed, c)){
+                // rysowanie wisielca
+                foults--;
+                for (int i = 0; i < 10 - foults ; i++) {
+                    System.out.print("X ");
+
+                }
+                System.out.println();
+            }
 
 
-        } while (true);
+        } while (foults > 0 && !isGuessed(guessed));
+        if (foults == 0) {
+            System.out.println("**************");
+            System.out.println(" przegrałeś");
+            System.out.println("**************");
+        }else System.out.println("wygrałeś");
+
 
 
     }//end of main
+
+
+    private static boolean isGuessed(boolean[] guess) {
+        for (int i = 0; i < guess.length; i++) {
+
+            if (guess[i] == false) return false;
+        }return true;
+    }
 
 
     private static boolean tryLetter(String word, boolean[] guess, char c) {
@@ -45,7 +69,7 @@ public class Wisielec {
         StringBuilder s = new StringBuilder(word);
         for (int i = 0; i < guess.length; i++) {
             if (guess[i] == false) {
-                s.replace(i, i + 1, "*");
+                s.replace(i, i + 1, ".");
             }
 
         }
